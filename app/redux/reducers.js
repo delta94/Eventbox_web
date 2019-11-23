@@ -11,24 +11,10 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import uiReducer from './modules/ui';
 import initval from './modules/initForm';
 import login from './modules/login';
+import register from './modules/register';
 import events from './modules/events';
 import contact from './modules/contact';
 import chat from './modules/chat';
-
-/**
- * Branching reducers to use one reducer for many components
- */
-
-function branchReducer(reducerFunction, reducerName) {
-	return (state, action) => {
-		const { branch } = action;
-		const isInitializationCall = state === undefined;
-		if (branch !== reducerName && !isInitializationCall) {
-			return state;
-		}
-		return reducerFunction(state, action);
-	};
-}
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -39,6 +25,7 @@ export default function createReducer(injectedReducers = {}) {
 		ui: uiReducer,
 		initval,
 		login,
+		register,
 		events,
 		contact,
 		chat,

@@ -1,18 +1,17 @@
-import { Map, fromJS } from 'immutable';
-import { INIT } from '../../actions/actionConstants';
+import {
+	LOGIN_USER_SUCCESS,
+	LOGIN_USER_ERROR
+} from 'dan-actions/actionConstants';
 
-const initialState = {
-	usersLogin: Map({
-		email: '',
-		password: '',
-		remember: false
-	})
-};
-const initialImmutableState = fromJS(initialState);
-export default function reducer(state = initialImmutableState, action = {}) {
+export default function(state = [], action) {
+
+	let response = action.response;
+
 	switch (action.type) {
-		case INIT:
-			return state;
+		case LOGIN_USER_SUCCESS:
+			return { ...state, response };
+		case LOGIN_USER_ERROR:
+			return { ...state, response };
 		default:
 			return state;
 	}

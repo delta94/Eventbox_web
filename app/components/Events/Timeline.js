@@ -40,10 +40,10 @@ class Timeline extends React.Component {
 		this.setState({ openComment: false });
 	};
 
-	handleOpenDetail = (ev) => {
+	handleOpenDetail = (event) => {
 		const { showDetail } = this.props;
 		this.setState({ openDetail: true });
-		showDetail(ev);
+		showDetail(event);
 	};
 
 	handleCloseDetail = () => {
@@ -57,10 +57,11 @@ class Timeline extends React.Component {
 			eventIndex,
 			onlike,
 			commentIndex,
+			keyword,
 			submitComment,
 		} = this.props;
 		const { openComment, openDetail } = this.state;
-		const displaydesc = (text, length) => {
+		const subTexte = (text, length) => {
 			if (text == null) { return ""; }
 			if (text.length <= length) { return text; }
 			text = text.substring(0, length);
@@ -68,68 +69,78 @@ class Timeline extends React.Component {
 			text = text.substring(0, last);
 			return text + "...";
 		}
-		const getItem = dataArray => dataArray.map(data => (
-			<li key={data.get('id')}>
-				<div className={classes.iconBullet}>
-					<Tooltip id={'tooltip-icon-' + data.get('id')} title={data.get('time')}>
-						<Icon className={classes.icon}>
-							<Ionicon icon="ios-calendar" />
-						</Icon>
-					</Tooltip>
-				</div>
-				<Card className={classes.cardSocmed}>
-					<CardHeader
-						avatar={
-							<Avatar alt="avatar" src={data.get('avatar')} className={classes.avatar} />
-						}
-						action={(
-							data.get('private') ? <Ionicon icon="ios-lock-outline" /> : <Ionicon icon="md-globe" />
+		const getItem = dataArray => dataArray.map(data => {
+
+			const renderHTML = { __html: subTexte(data.get('content'), 180) };
+			if (data.get('title').toLowerCase().indexOf(keyword) === -1) {
+				return false;
+			}
+			return (
+				<li key={data.get('id')}>
+					<div className={classes.iconBullet}>
+						<Tooltip id={'tooltip-icon-' + data.get('id')} title={data.get('time')}>
+							<Icon className={classes.icon}>
+								<Ionicon icon="ios-calendar" />
+							</Icon>
+						</Tooltip>
+					</div>
+					<Card className={classes.cardSocmed}>
+						<CardHeader
+							avatar={
+								<Avatar alt="avatar" src={data.get('avatar')} className={classes.avatar} />
+							}
+							action={(
+								data.get('privacy') == '2' ? <Ionicon icon="ios-lock-outline" /> : <Ionicon icon="md-globe" />
+							)}
+							title={subTexte(data.get('title'), 80)}
+							subheader={'organise par ' + data.get('name')}
+						/>
+						{data.get('image') !== '' && (
+							<CardActionArea onClick={() => this.handleOpenDetail(data)}>
+								<CardMedia
+									className={classes.media}
+									image={data.get('image')}
+									title={data.get('name')}
+								/>
+							</CardActionArea>
 						)}
-						title={'organise par ' + data.get('name')}
-						subheader={data.get('date')}
-					/>
-					{data.get('image') !== '' && (
-						<CardActionArea onClick={() => this.handleOpenDetail(data)}>
-							<CardMedia
-								className={classes.media}
-								image={data.get('image')}
-								title={data.get('name')}
-							/>
-						</CardActionArea>
-					)}
-					<CardContent>
-						<Typography component="p">
-							{displaydesc(data.get('content'), 150)}
-						</Typography>
-					</CardContent>
-					<CardActions className={classes.actions}>
-						<Typography variant="caption" component="span">
-							<Ionicon icon="ios-people" /> 3 personnes
-						</Typography>
-						<IconButton className={classes.btnAction}>
-							<Ionicon icon="md-close" />
-							<Typography variant="caption" component="span">
-								Pas interesse(e)
+						<CardContent>
+							<Typography component="p" className={classes.eventDate}>
+								<Ionicon icon="ios-calendar-outline" /> {data.get('date')} &nbsp; a &nbsp; {data.get('time')}
 							</Typography>
-						</IconButton>
-						<IconButton className={classes.btnAction}>
-							<Ionicon icon="ios-share-alt" />
-							<Typography variant="caption" component="span">
-								Partager
+							<Typography component="p" className={classes.eventLocation}>
+								<Ionicon icon="ios-pin-outline" /> Nanterre, bat C
 							</Typography>
-						</IconButton>
-						<div className={classes.rightIcon}>
+						</CardContent>
+						<CardActions className={classes.actions}>
 							<Typography variant="caption" component="span">
-								{data.get('comments') !== undefined ? data.get('comments').size : 0}
+								<Ionicon icon="ios-people" /> 3 personnes
 							</Typography>
-							<IconButton aria-label="Comment" onClick={() => this.handleOpenComment(data)}>
-								<CommentIcon />
+							<IconButton className={classes.btnAction}>
+								<Ionicon icon="md-close" />
+								<Typography variant="caption" component="span">
+									Pas interesse(e)
+								</Typography>
 							</IconButton>
-						</div>
-					</CardActions>
-				</Card>
-			</li>
-		));
+							<IconButton className={classes.btnAction}>
+								<Ionicon icon="ios-share-alt" />
+								<Typography variant="caption" component="span">
+									Partager
+								</Typography>
+							</IconButton>
+							<div className={classes.rightIcon}>
+								<Typography variant="caption" component="span">
+									{data.get('comments') !== undefined ? data.get('comments').size : 0}
+								</Typography>
+								<IconButton aria-label="Comment" onClick={() => this.handleOpenComment(data)}>
+									<CommentIcon />
+								</IconButton>
+							</div>
+						</CardActions>
+					</Card>
+				</li>
+			);
+		});
 		return (
 			<Fragment>
 				<Comment
@@ -138,7 +149,7 @@ class Timeline extends React.Component {
 					submitComment={submitComment}
 					dataComment={dataTimeline.getIn([commentIndex, 'comments'])}
 				/>
-				<EventDetail 
+				<EventDetail
 					open={openDetail}
 					close={this.handleCloseDetail}
 					detailContent={dataTimeline}
@@ -156,10 +167,12 @@ Timeline.propTypes = {
 	classes: PropTypes.object.isRequired,
 	onlike: PropTypes.func,
 	dataTimeline: PropTypes.object.isRequired,
-	eventIndex: PropTypes.number.isRequired,
 	fetchComment: PropTypes.func,
 	submitComment: PropTypes.func,
 	commentIndex: PropTypes.number,
+	eventIndex: PropTypes.number.isRequired,
+	showDetail: PropTypes.func.isRequired,
+	keyword: PropTypes.string.isRequired,
 };
 
 Timeline.defaultProps = {
@@ -167,7 +180,6 @@ Timeline.defaultProps = {
 	fetchComment: () => { },
 	submitComment: () => { },
 	commentIndex: 0,
-	eventIndex: 0,
 };
 
 export default withStyles(styles)(Timeline);

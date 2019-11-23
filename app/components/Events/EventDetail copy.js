@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Slider from 'react-slick';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,29 +8,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
-import Slide from '@material-ui/core/Slide';
+import Add from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import imgData from 'dan-api/images/imgData';
-import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
-import Type from 'dan-styles/Typography.scss';
-import 'dan-styles/vendors/slick-carousel/slick-carousel.css';
-import 'dan-styles/vendors/slick-carousel/slick.css';
 import Ionicon from 'react-ionicons';
+import Divider from '@material-ui/core/Divider';
 import People from '@material-ui/icons/People';
-import 'dan-styles/vendors/slick-carousel/slick-theme.css';
 import styles from './jss/eventDetail-jss';
 
-const getThumb = imgData.map(a => a.thumb);
-
-const Transition = React.forwardRef(function Transition(props, ref) { // eslint-disable-line
-	return <Slide direction="up" ref={ref} {...props} />;
-});
-
-class EventDetail extends React.Component { // eslint-disable-line
+class EventDetail extends React.Component {
 
 	render() {
 		const {
@@ -46,13 +30,12 @@ class EventDetail extends React.Component { // eslint-disable-line
 			if (img !== '') { return img; }
 			return bg;
 		}
-		const renderHTML = { __html: detailContent.getIn([eventIndex, 'content']) };
+
 		return (
 			<Dialog
 				fullScreen
 				open={open}
 				onClose={close}
-				TransitionComponent={Transition}
 			>
 				<AppBar className={classes.appBar}>
 					<Toolbar>
@@ -65,7 +48,7 @@ class EventDetail extends React.Component { // eslint-disable-line
 					</Toolbar>
 				</AppBar>
 				<div className={classes.detailContainer}>
-					<Grid container className={classes.root} spacing={3}>
+					<Grid container className={classes.root} spacing={24}>
 						<Grid item md={5} sm={12} xs={12}>
 							<div className="container thumb-nav">
 								<img src={getImg(detailContent.getIn([eventIndex, 'image']), detailContent.getIn([eventIndex, 'defaultBg']))} />
@@ -74,25 +57,32 @@ class EventDetail extends React.Component { // eslint-disable-line
 						<Grid item md={7} sm={12} xs={12}>
 							<section className={classes.detailWrap}>
 								<Typography noWrap gutterBottom variant="h5" className={classes.title} component="h2">
-									A propos :
+									{detailContent.getIn([eventIndex, 'title'])}
 								</Typography>
-								<article dangerouslySetInnerHTML={renderHTML} />
 								<Divider className={classes.divider} />
-								<Typography noWrap gutterBottom variant="h6" className={classes.subtitle} component="h4">
+								<Typography noWrap gutterBottom variant="h6" className={classes.subTitle} component="h4">
+									<Ionicon icon="ios-calendar-outline" className={classes.textIcon} />
 									{detailContent.getIn([eventIndex, 'date'])} &nbsp; a &nbsp; {detailContent.getIn([eventIndex, 'time'])}
 								</Typography>
+								<Typography component="p" className={classes.desc}>
+									{detailContent.getIn([eventIndex, 'content'])}
+								</Typography>
 								<Typography component="p" className={classes.author}>
-									<b>Organisateur :</b> &nbsp; {detailContent.getIn([eventIndex, 'name'])} <br />
+									<Ionicon icon="md-contact" className={classes.textIcon} />
+									Organise par : &nbsp; {detailContent.getIn([eventIndex, 'name'])}
 								</Typography>
-								<Typography component="p" className={classes.participant}>
-									<b>3</b> &nbsp; personnes y participent <br />
-								</Typography>
-								<Typography component="p" className={classes.location} color="primary">
-									<ButtonBase focusRipple onClick={() => this.doSometing()} >
-										36 rue du saint itoup, 75002 Paris &nbsp;
-											<Ionicon icon="ios-pin-outline" className={classes.textIcon} />
-									</ButtonBase>
-								</Typography>
+								{detailContent.get([eventIndex, 'participant']) !== 0 && (
+									<Typography component="p" className={classes.participant}>
+										<People className={classes.textIcon} />
+										{detailContent.getIn([eventIndex, 'participant'])} personnes y participent
+									</Typography>
+								)}
+								{detailContent.getIn([eventIndex, 'location']) !== '' && (
+									<Typography component="p" className={classes.location}>
+										<Ionicon icon="ios-pin-outline" className={classes.textIcon} />
+										{detailContent.getIn([eventIndex, 'location'])}
+									</Typography>
+								)}
 								<Divider className={classes.divider} />
 								<div className={classes.btnArea}>
 									<Button
@@ -101,7 +91,8 @@ class EventDetail extends React.Component { // eslint-disable-line
 										onClick={() => { false }}
 										color="secondary"
 									>
-										Participer
+										<Ionicon icon="ios-star-outline" />
+										&nbsp; Participer
                                     </Button>
 									<Button
 										className={classes.btn}
@@ -109,14 +100,8 @@ class EventDetail extends React.Component { // eslint-disable-line
 										onClick={() => { false }}
 										color="primary"
 									>
-										Contacter l'autheur
-                                    </Button>
-									<Button
-										className={classes.btn}
-										variant="contained"
-										onClick={() => { false }}
-									>
-										Supprimer
+										<Ionicon icon="ios-chatbubbles-outline" />
+										&nbsp; Contacter l'autheur
                                     </Button>
 								</div>
 							</section>

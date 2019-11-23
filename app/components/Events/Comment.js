@@ -83,10 +83,10 @@ class Comment extends React.Component {
 					<DialogTitle id="form-dialog-title">
 						<CommentIcon />
 						&nbsp;
-            {dataComment !== undefined && dataComment.size}
+            			{dataComment !== undefined && dataComment.size}
 						&nbsp;
 						Comment
-            {dataComment !== undefined && dataComment.size > 1 ? 's' : ''}
+            			{dataComment !== undefined && dataComment.size > 1 ? 's' : ''}
 						<IconButton onClick={handleClose} className={classes.buttonClose} aria-label="Close">
 							<CloseIcon />
 						</IconButton>

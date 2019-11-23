@@ -11,6 +11,8 @@ const timelineData = [
 		image: imgApi[19],
 		content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed urna in justo euismod condimentum. Fusce placerat enim et odio molestie sagittis.',
 		liked: true,
+		privacy: '1',
+		title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed urna in justo euismod condimentum.',
 		comments: [
 			{
 				id: '1_1',
@@ -45,6 +47,8 @@ const timelineData = [
 		image: '',
 		content: 'Quisque ut metus sit amet augue rutrum feugiat. Vestibulum bibendum nisi eget magna malesuada, at mattis eros efficitur. Vivamus facilisis quam ullamcorper iaculis gravida.',
 		liked: true,
+		privacy: '2',
+		title: 'Quisque ut metus sit amet augue rutrum feugiat. Vestibulum bibendum nisi eget magna malesuada',
 		comments: [
 			{
 				id: '2_1',
@@ -72,6 +76,8 @@ const timelineData = [
 		image: imgApi[20],
 		content: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor. Interdum et malesuada fames ac ante ipsum primis in faucibus.',
 		liked: false,
+		privacy: '1',
+		title: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor',
 		comments: [
 			{
 				id: '3_1',
@@ -113,6 +119,8 @@ const timelineData = [
 		image: '',
 		content: 'Donec dignissim, odio ac imperdiet luctus, ante nisl accumsan justo, et venenatis ante metus pellentesque sem.',
 		liked: true,
+		privacy: '2',
+		title: 'Donec dignissim, odio ac imperdiet luctus',
 		comments: [
 			{
 				id: '4_1',
@@ -133,6 +141,8 @@ const timelineData = [
 		image: imgApi[12],
 		content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed urna in justo euismod condimentum. Fusce placerat enim et odio molestie sagittis.',
 		liked: false,
+		privacy: '1',
+		title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed urna in justo euismod condimentum. Fusce placerat enim et odio molestie sagittis',
 		comments: [
 			{
 				id: '5_1',

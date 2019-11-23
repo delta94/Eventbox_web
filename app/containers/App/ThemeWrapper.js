@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Loading from 'react-loading-bar';
 import { create } from 'jss';
+import { SnackbarProvider } from 'notistack';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
@@ -87,9 +88,11 @@ class ThemeWrapper extends React.Component {
 							color="rgba(255,255,255,.9)"
 							showSpinner={false}
 						/>
-						
+
 						<AppContext.Provider value={this.handleChangeMode}>
-							{children}
+							<SnackbarProvider maxSnack={3}>
+								{children}
+							</SnackbarProvider>
 						</AppContext.Provider>
 					</div>
 				</MuiThemeProvider>

@@ -23,12 +23,12 @@ const styles = theme => ({
 		marginBottom: theme.spacing(3),
 		position: 'relative',
 		'& .MuiCardHeader-subheader': {
-			color: 'red',
+			
 		}
 	},
 	media: {
 		height: 0,
-		paddingTop: '56.25%', // 16:9
+		paddingTop: '30.25%', // 16:9
 	},
 	actions: {
 		display: 'flex',
@@ -45,7 +45,7 @@ const styles = theme => ({
 			left: 39,
 			content: '""',
 			top: 40,
-			height: '98%',
+			height: '95%',
 			borderLeft: theme.palette.type === 'dark' ? `1px solid ${theme.palette.grey[800]}` : `1px solid ${theme.palette.grey[300]}`,
 			position: 'absolute',
 			[theme.breakpoints.down('sm')]: {
@@ -102,6 +102,9 @@ const styles = theme => ({
 		'&:hover, &:focus': {
 			borderRadius: 0,
 		}
+	},
+	eventDate: {
+		color: 'red',
 	}
 });
 

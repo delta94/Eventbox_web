@@ -3,7 +3,7 @@
  */
 
 import 'whatwg-fetch';
-import request from '../request';
+import request from '../request2';
 
 describe('request', () => {
   // Before each test, stub the fetch function

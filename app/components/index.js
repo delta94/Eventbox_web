@@ -5,7 +5,6 @@ export SidebarBig from './SidebarBig';
 // paper
 export PaperBlock from './Paper/PaperBlock';
 export PaperSheet from './Paper/PaperSheet';
-export SearchUi from './Search/SearchUi';
 //  Widget
 export ProfileWidget from './Widget/ProfileWidget';
 export CarouselWidget from './Widget/CarouselWidget';
@@ -58,7 +57,6 @@ export PricingCard from './Cards/PricingCard';
 export ShowcaseCard from './Cards/ShowcaseCard';
 export HeadlineCard from './Cards/HeadlineCard';
 // Search
-export SearchProduct from './Search/SearchProduct';
 export SearchEvent from './Search/SearchEvent';
 
 export FloatingPanel from './Panel/FloatingPanel';

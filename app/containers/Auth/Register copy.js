@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { withSnackbar } from 'notistack';
 import brand from 'dan-api/dummy/brand';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
@@ -37,18 +36,24 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disabl
 	return <NavLink to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
 });
 
-const registerOK = { variant: 'success', message: "Thank you! You're successfully registered. Please Login to continue!" };
-const registerFailled = { variant: 'error', message: "Sorry! Something went wrong. Please try again!" };
-
 class Register extends React.Component {
-	state = {
-		username: { value: '' },
-		email: { value: '' },
-		password: { value: '' }
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			username: { value: '' },
+			email: { value: '' },
+			password: { value: '' }
+		}
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
+		this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
+		this.isFormInvalid = this.isFormInvalid.bind(this);
 	}
 
-	//=============== handle form input change ==========
-	handleInputChange = (event, validationFun) => {
+	// =============== handle form input change ==========
+	handleInputChange(event, validationFun) {
 		const target = event.target;
 		const inputName = target.name;
 		const inputValue = target.value;
@@ -61,7 +66,7 @@ class Register extends React.Component {
 		});
 	}
 	//================ handle form submit ==========
-	handleSubmit = event => {
+	handleSubmit(event) {
 		event.preventDefault();
 
 		const registerRequest = {
@@ -72,115 +77,36 @@ class Register extends React.Component {
 
 		registerService(registerRequest)
 			.then(response => {
-				this.props.enqueueSnackbar(registerOK.message, { variant: registerOK.variant });
+				notification.success({
+					message: 'Eeventbox',
+					description: "Thank you! You're successfully registered. Please Login to continue!",
+				});
 				this.props.history.push("/login");
 			}).catch(error => {
-				this.props.enqueueSnackbar(error.message || registerFailled.message, { variant: registerFailled.variant });
+				notification.error({
+					message: 'Eeventbox',
+					description: error.message || 'Sorry! Something went wrong. Please try again!'
+				});
 			});
 	}
-	// ========= validation function =========
-	isFormInvalid = () => {
+
+	//================= check if form is valide ===========
+	isFormInvalid() {
 		return !(
 			this.state.username.validateStatus === true &&
 			this.state.email.validateStatus === true &&
 			this.state.password.validateStatus === true
 		);
 	}
-
-	validateEmail = email => {
-		if (!email) {
-			return { validateStatus: false, errorMsg: 'Email may not be empty' }
-		}
-
-		const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
-		if (!EMAIL_REGEX.test(email)) {
-			return { validateStatus: false, errorMsg: 'Email not valid' }
-		}
-
-		if (email.length > EMAIL_MAX_LENGTH) {
-			return { validateStatus: false, errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)` }
-		}
-
-		return { validateStatus: null, errorMsg: null }
-	}
-
-	validateUsername = username => {
-		if (username.length < USERNAME_MIN_LENGTH) {
-			return { validateStatus: false, errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)` }
-		} else if (username.length > USERNAME_MAX_LENGTH) {
-			return { validationStatus: false, errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)` }
-		} else {
-			return { validateStatus: null, errorMsg: null }
-		}
-	}
-
-	validatePassword = password => {
-		if (password.length < PASSWORD_MIN_LENGTH) {
-			return { validateStatus: false, errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)` }
-		} else if (password.length > PASSWORD_MAX_LENGTH) {
-			return { validationStatus: false, errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)` }
-		} else {
-			return { validateStatus: true, errorMsg: null, };
-		}
-	}
-
-	validateUsernameAvailability = () => {
-		// First check for client side errors in username
-		const usernameValue = this.state.username.value;
-		const usernameValidation = this.validateUsername(usernameValue);
-
-		if (usernameValidation.validateStatus === false) {
-			this.setState({ username: { value: usernameValue, ...usernameValidation } });
-			return;
-		}
-
-		this.setState({ username: { value: usernameValue, validateStatus: false, errorMsg: null } });
-
-		checkUsernameAvailability(usernameValue)
-			.then(response => {
-				if (response.available) {
-					this.setState({ username: { value: usernameValue, validateStatus: true, errorMsg: null } });
-				} else {
-					this.setState({ username: { value: usernameValue, validateStatus: false, errorMsg: 'This username is already taken' } });
-				}
-			}).catch(error => {
-				// Marking validateStatus as success, Form will be recchecked at server
-				this.setState({ username: { value: usernameValue, validateStatus: true, errorMsg: null } });
-			});
-	}
-
-	validateEmailAvailability = () => {
-		// First check for client side errors in email
-		const emailValue = this.state.email.value;
-		const emailValidation = this.validateEmail(emailValue);
-
-		if (emailValidation.validateStatus === false) {
-			this.setState({ email: { value: emailValue, ...emailValidation } });
-			return;
-		}
-
-		this.setState({ email: { value: emailValue, validateStatus: false, errorMsg: null } });
-
-		checkEmailAvailability(emailValue)
-			.then(response => {
-				if (response.available) {
-					this.setState({ email: { value: emailValue, validateStatus: true, errorMsg: null } });
-				} else {
-					this.setState({ email: { value: emailValue, validateStatus: false, errorMsg: 'This Email is already registered' } });
-				}
-			}).catch(error => {
-				// Marking validateStatus as success, Form will be recchecked at server
-				this.setState({ email: { value: emailValue, validateStatus: true, errorMsg: null } });
-			});
-	}
-
+	//================== render ===============
 
 	render() {
 		const title = brand.name + ' - Register';
 		const description = brand.desc;
 		const { classes } = this.props;
+
 		const deco = true;
-		const { username, email, password } = this.state;
+
 		return (
 			<div className={classes.root}>
 				<Helmet>
@@ -224,12 +150,12 @@ class Register extends React.Component {
 												<TextField
 													id="username"
 													name="username"
+													error={this.state.username.validateStatus}
+													helperText={this.state.username.errorMsg}
 													label="Username"
 													className={classes.field}
 													placeholder="Username"
-													error={username.validateStatus}
-													helperText={username.errorMsg}
-													value={username.value}
+													value={this.state.username.value}
 													onBlur={this.validateUsernameAvailability}
 													onChange={(event) => this.handleInputChange(event, this.validateUsername)}
 													required
@@ -242,12 +168,12 @@ class Register extends React.Component {
 												<TextField
 													id="email"
 													name="email"
+													error={this.state.email.validateStatus}
+													helperText={this.state.email.errorMsg}
 													label="Your email"
 													className={classes.field}
 													placeholder="Your email"
-													error={email.validateStatus}
-													helperText={email.errorMsg}
-													value={email.value}
+													value={this.state.email.value}
 													onBlur={this.validateEmailAvailability}
 													onChange={(event) => this.handleInputChange(event, this.validateEmail)}
 													required
@@ -260,12 +186,12 @@ class Register extends React.Component {
 												<TextField
 													id="password"
 													name="password"
+													error={this.state.password.validateStatus}
+													helperText={this.state.password.errorMsg}
 													type="password"
 													label="Your Password"
 													className={classes.field}
-													error={password.validateStatus}
-													helperText={password.errorMsg}
-													value={password.value}
+													value={this.state.password.value}
 													onChange={(event) => this.handleInputChange(event, this.validatePassword)}
 													required
 													margin="normal"
@@ -316,8 +242,97 @@ class Register extends React.Component {
 	}
 }
 
+// ========= validation function =========
+validateEmail = (email) => {
+	if (!email) {
+		return { validateStatus: false, errorMsg: 'Email may not be empty' }
+	}
+
+	const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
+	if (!EMAIL_REGEX.test(email)) {
+		return { validateStatus: false, errorMsg: 'Email not valid' }
+	}
+
+	if (email.length > EMAIL_MAX_LENGTH) {
+		return { validateStatus: false, errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)` }
+	}
+
+	return { validateStatus: null, errorMsg: null }
+}
+
+validateUsername = (username) => {
+	if (username.length < USERNAME_MIN_LENGTH) {
+		return { validateStatus: false, errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)` }
+	} else if (username.length > USERNAME_MAX_LENGTH) {
+		return { validationStatus: false, errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)` }
+	} else {
+		return { validateStatus: null, errorMsg: null }
+	}
+}
+
+validatePassword = (password) => {
+	if (password.length < PASSWORD_MIN_LENGTH) {
+		return { validateStatus: false, errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)` }
+	} else if (password.length > PASSWORD_MAX_LENGTH) {
+		return { validationStatus: false, errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)` }
+	} else {
+		return { validateStatus: true, errorMsg: null, };
+	}
+}
+
+validateUsernameAvailability = () => {
+	// First check for client side errors in username
+	const usernameValue = this.state.username.value;
+	const usernameValidation = this.validateUsername(usernameValue);
+
+	if (usernameValidation.validateStatus === false) {
+		this.setState({ username: { value: usernameValue, ...usernameValidation } });
+		return;
+	}
+
+	this.setState({ username: { value: usernameValue, validateStatus: false, errorMsg: null } });
+
+	checkUsernameAvailability(usernameValue)
+		.then(response => {
+			if (response.available) {
+				this.setState({ username: { value: usernameValue, validateStatus: true, errorMsg: null } });
+			} else {
+				this.setState({ username: { value: usernameValue, validateStatus: false, errorMsg: 'This username is already taken' } });
+			}
+		}).catch(error => {
+			// Marking validateStatus as success, Form will be recchecked at server
+			this.setState({ username: { value: usernameValue, validateStatus: true, errorMsg: null } });
+		});
+}
+
+validateEmailAvailability = () => {
+	// First check for client side errors in email
+	const emailValue = this.state.email.value;
+	const emailValidation = this.validateEmail(emailValue);
+
+	if (emailValidation.validateStatus === false) {
+		this.setState({ email: { value: emailValue, ...emailValidation } });
+		return;
+	}
+
+	this.setState({ email: { value: emailValue, validateStatus: false, errorMsg: null } });
+
+	checkEmailAvailability(emailValue)
+		.then(response => {
+			if (response.available) {
+				this.setState({ email: { value: emailValue, validateStatus: true, errorMsg: null } });
+			} else {
+				this.setState({ email: { value: emailValue, validateStatus: false, errorMsg: 'This Email is already registered' } });
+			}
+		}).catch(error => {
+			// Marking validateStatus as success, Form will be recchecked at server
+			this.setState({ email: { value: emailValue, validateStatus: true, errorMsg: null } });
+		});
+}
+
+
 Register.propTypes = {
 	classes: PropTypes.object,
 };
 
-export default withStyles(styles)(withSnackbar(Register));
+export default (withStyles(styles)(Register));

@@ -48,19 +48,29 @@ const styles = theme => ({
 		flex: 1,
 	},
 	detailContainer: {
-		margin: '2%',
+		margin: '-16px auto 0',
 		maxWidth: '100%',
 		[theme.breakpoints.up('lg')]: {
-			maxWidth: '100%',
+			maxWidth: 1080,
 		},
 		[theme.breakpoints.up('md')]: {
-			maxWidth: '100%',
+			maxWidth: 960,
 			paddingTop: 40,
 			marginTop: 0
 		},
 		[theme.breakpoints.down('sm')]: {
 			overflowX: 'hidden',
 		}
+	},
+	chipDiscount: {
+		background: theme.palette.primary.light,
+		color: theme.palette.primary.dark,
+		marginBottom: 10,
+	},
+	chipSold: {
+		background: dark[500],
+		color: theme.palette.getContrastText(dark[500]),
+		marginBottom: 10,
 	},
 	detailWrap: {
 		position: 'relative',
@@ -69,11 +79,19 @@ const styles = theme => ({
 	title: {
 		marginBottom: 30
 	},
-	subTitle: {
-		color: red[500],
+	subtitle: {
+		color: 'red',
 	},
-	btn: {
-		marginRight: 10,
+	price: {
+		display: 'flex',
+		padding: `${theme.spacing(3)}px ${theme.spacing(1.5)}px`,
+		'& > *': {
+			marginRight: 10
+		}
+	},
+	ratting: {
+		borderBottom: `1px solid ${theme.palette.grey[400]}`,
+		marginBottom: 20,
 	},
 	btnArea: {
 		alignItems: 'center',
@@ -86,76 +104,19 @@ const styles = theme => ({
 			marginRight: theme.spacing(2)
 		},
 	},
+	btn: {
+		marginRight: 10, 
+	},
+	quantity: {
+		width: 60,
+		marginRight: 30,
+		marginLeft: 10,
+		'& input': {
+			textAlign: 'right'
+		}
+	},
 	desc: {
 		padding: theme.spacing(2)
-	},
-	date: {
-		display: 'inline-block',
-		textAlign: 'left',
-		position: 'left',
-		width: '100%',
-		marginTop: '25px',
-		'@media (max-width: 600px)': {
-			display: 'block',
-			width: '100%',
-		}
-	},
-	location: {
-		display: 'inline-block',
-		textAlign: 'left',
-		position: 'left',
-		width: '100%',
-		marginTop: '10px',
-		marginBottom: 10,
-		'@media (max-width: 600px)': {
-			display: 'block',
-			width: '100%',
-			marginBottom: 10,
-		}
-	},
-	author: {
-		display: 'inline-block',
-		textAlign: 'left',
-		position: 'left',
-		width: '100%',
-		fontWeight: 'bold',
-		marginTop: '10px',
-		'@media (max-width: 600px)': {
-			display: 'block',
-			width: '100%',
-		}
-	},
-	participant: {
-		display: 'inline-block',
-		textAlign: 'left',
-		position: 'left',
-		width: '100%',
-		marginTop: '10px',
-		'@media (max-width: 600px)': {
-			display: 'block',
-			width: '100%',
-		}
-	},
-	subInfo: {
-		display: 'inline-block',
-		fontSize: 13,
-		width: '100%',
-	},
-	textButton: {
-		background: 'transparent',
-		margin: 0,
-		'&:hover': {
-			color: 'cyan',
-		},
-		'@media (max-width: 600px)': {
-			padding: 4,
-		}
-	},
-	textIcon: {
-		marginRight: '10px',
-		'@media (max-width: 600px)': {
-			display: 'none',
-		}
 	},
 	imgGallery: {
 		marginTop: theme.spacing(3),
@@ -169,8 +130,7 @@ const styles = theme => ({
 		}
 	},
 	divider: {
-		marginBottom: 15,
-		width: '60%',
+		margin: `${theme.spacing(1.5)}px 0`
 	},
 	avatar: {
 		margin: 10,

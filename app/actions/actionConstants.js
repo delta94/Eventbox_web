@@ -20,12 +20,13 @@ export const CLEAR = 'CLEAR';
 // Events
 export const FETCH_TIMELINE_DATA = 'FETCH_TIMELINE_DATA';
 export const FETCH_COMMENT_DATA = 'FETCH_COMMENT_DATA';
+export const SHOW_DETAIL_EVENT = 'SHOW_DETAIL_EVENT';
 export const POST = 'POST';
 export const POST_COMMENT = 'POST_COMMENT';
 export const TOGGLE_LIKE = 'TOGGLE_LIKE';
-export const COMPOSE_MAIL = 'COMPOSE_MAIL';
-export const DISCARD_MESSAGE = 'DISCARD_MESSAGE';
-export const SEND_MAIL = 'SEND_MAIL';
+export const COMPOSE_EVENT = 'COMPOSE_EVENT';
+export const DISCARD_EVENT = 'DISCARD_EVENT';
+export const SEARCH_EVENT = 'SEARCH_EVENT';
 
 // Contact
 export const FETCH_CONTACT_DATA = 'FETCH_CONTACT_DATA';
@@ -48,3 +49,20 @@ export const DELETE_CONVERSATION = 'DELETE_CONVERSATION';
 
 // Notification Form
 export const CLOSE_NOTIF = 'CLOSE_NOTIF';
+
+// authentification
+export const REGISTER_USER = 'REGISTER_USER';
+export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
+export const REGISTER_USER_ERROR = 'REGISTER_USER_ERROR';
+
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
+export const LOGIN_USER_ERROR = 'LOGIN_USER_ERROR';
+
+export const USERNAME_MIN_LENGTH = 3;
+export const USERNAME_MAX_LENGTH = 15;
+
+export const EMAIL_MAX_LENGTH = 40;
+
+export const PASSWORD_MIN_LENGTH = 6;
+export const PASSWORD_MAX_LENGTH = 20;

@@ -23,6 +23,11 @@ export const fetchCommentAction = item => ({
 	item,
 });
 
+export const detailAction = item => ({
+	type: types.SHOW_DETAIL_EVENT,
+	item
+});
+
 export const postCommentAction = (comment) => ({
 	type: types.POST_COMMENT,
 	comment,
@@ -33,17 +38,14 @@ export const closeNotifAction = {
 };
 
 export const composeAction = {
-	type: types.COMPOSE_MAIL,
+	type: types.COMPOSE_EVENT,
 };
-
-export const sendAction = (to, subject, content, attachment) => ({
-	type: types.SEND_MAIL,
-	to,
-	subject,
-	content,
-	attachment,
-});
 
 export const discardAction = {
-	type: types.DISCARD_MESSAGE,
+	type: types.DISCARD_EVENT,
 };
+
+export const searchAction = keyword => ({
+	type: types.SEARCH_EVENT,
+	keyword,
+});

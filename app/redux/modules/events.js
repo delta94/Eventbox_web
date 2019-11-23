@@ -6,10 +6,11 @@ import {
 	POST,
 	TOGGLE_LIKE,
 	FETCH_COMMENT_DATA,
+	SHOW_DETAIL_EVENT,
 	POST_COMMENT,
-	COMPOSE_MAIL,
-	SEND_MAIL,
-	DISCARD_MESSAGE,
+	COMPOSE_EVENT,
+	SEARCH_EVENT,
+	DISCARD_EVENT,
 	CLOSE_NOTIF
 } from 'dan-actions/actionConstants';
 import { getDate, getTime } from '../helpers/dateTimeHelper';
@@ -18,6 +19,7 @@ const initialState = {
 	dataTimeline: List([]),
 	commentIndex: 0,
 	eventIndex: 0,
+	keywordValue: '',
 	notifMsg: '',
 	openForm: false,
 };
@@ -69,8 +71,8 @@ export default function reducer(state = initialImmutableState, action = {}) {
 	switch (action.type) {
 		case FETCH_TIMELINE_DATA:
 			return state.withMutations((mutableState) => {
-				const index = state.get('dataTimeline').indexOf(action.item);
 				const items = fromJS(action.items);
+				const index = state.get('dataTimeline').indexOf(action.item);
 				mutableState.set('dataTimeline', items);
 				mutableState.set('eventIndex', index);
 			});
@@ -108,25 +110,26 @@ export default function reducer(state = initialImmutableState, action = {}) {
 					)
 					.set('notifMsg', notif.commented);
 			});
-		case COMPOSE_MAIL:
+		case COMPOSE_EVENT:
 			return state.withMutations((mutableState) => {
 				mutableState.set('openForm', true);
 			});
-		case SEND_MAIL:
+		case SEARCH_EVENT:
 			return state.withMutations((mutableState) => {
-				const newMail = null; // to check
-				mutableState
-					.update('inbox', inbox => inbox.unshift(newMail))
-					.set('selectedMailId', '')
-					.set('openForm', false)
-					.set('notifMsg', notif.sent);
+				action.keyword.persist();
+				const keyword = action.keyword.target.value.toLowerCase();
+				mutableState.set('keywordValue', keyword);
 			});
-		case DISCARD_MESSAGE:
+		case DISCARD_EVENT:
 			return state.withMutations((mutableState) => {
 				mutableState
 					.set('openForm', false)
-					.set('selectedMailId', '')
 					.set('notifMsg', notif.discard);
+			});
+		case SHOW_DETAIL_EVENT:
+			return state.withMutations((mutableState) => {
+				const index = state.get('dataTimeline').indexOf(action.item);
+				mutableState.set('eventIndex', index);
 			});
 		case CLOSE_NOTIF:
 			return state.withMutations((mutableState) => {

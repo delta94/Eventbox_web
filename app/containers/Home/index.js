@@ -16,8 +16,10 @@ import {
 	fetchAction,
 	toggleLikeAction,
 	fetchCommentAction,
+	detailAction,
 	postCommentAction,
-	closeNotifAction
+	closeNotifAction,
+	searchAction,
 } from 'dan-actions/EventActions';
 import {
 	Timeline,
@@ -45,6 +47,8 @@ class Home extends PureComponent {
 			closeNotif,
 			messageNotif,
 			search,
+			showDetail,
+			keyword,
 			eventIndex
 		} = this.props;
 
@@ -67,6 +71,8 @@ class Home extends PureComponent {
 						fetchComment={fetchComment}
 						commentIndex={commentIndex}
 						eventIndex={eventIndex}
+						keyword={keyword}
+						showDetail={showDetail}
 					/>
 				</Hidden>
 				<Hidden only={['xs', 'sm', 'md']}>
@@ -83,6 +89,9 @@ class Home extends PureComponent {
 									submitComment={submitComment}
 									fetchComment={fetchComment}
 									commentIndex={commentIndex}
+									eventIndex={eventIndex}
+									keyword={keyword}
+									showDetail={showDetail}
 								/>
 							</Paper>
 						</Grid>
@@ -100,12 +109,14 @@ class Home extends PureComponent {
 Home.propTypes = {
 	classes: PropTypes.object.isRequired,
 	fetchData: PropTypes.func.isRequired,
-	eventIndex: PropTypes.number.isRequired,
 	submitLike: PropTypes.func.isRequired,
+	showDetail: PropTypes.func.isRequired,
 	submitComment: PropTypes.func.isRequired,
+	keyword: PropTypes.string.isRequired,
 	dataProps: PropTypes.object.isRequired,
 	fetchComment: PropTypes.func.isRequired,
 	commentIndex: PropTypes.number.isRequired,
+	eventIndex: PropTypes.number.isRequired,
 	closeNotif: PropTypes.func.isRequired,
 	messageNotif: PropTypes.string.isRequired,
 	search: PropTypes.func.isRequired,
@@ -114,6 +125,7 @@ Home.propTypes = {
 const reducer = 'events';
 const mapStateToProps = state => ({
 	force: state, // force state from reducer
+	keyword: state.getIn([reducer, 'keywordValue']),
 	dataProps: state.getIn([reducer, 'dataTimeline']),
 	commentIndex: state.getIn([reducer, 'commentIndex']),
 	eventIndex: state.getIn([reducer, 'eventIndex']),
@@ -122,8 +134,10 @@ const mapStateToProps = state => ({
 
 const constDispatchToProps = dispatch => ({
 	fetchData: bindActionCreators(fetchAction, dispatch),
+	search: bindActionCreators(searchAction, dispatch),
 	submitComment: bindActionCreators(postCommentAction, dispatch),
 	submitLike: bindActionCreators(toggleLikeAction, dispatch),
+	showDetail: bindActionCreators(detailAction, dispatch),
 	fetchComment: bindActionCreators(fetchCommentAction, dispatch),
 	closeNotif: () => dispatch(closeNotifAction),
 });
