@@ -26,6 +26,10 @@ export const ContactPage = Loadable({
 	loader: () => import('./Contact'),
 	loading: Loading,
 });
+export const ProfilePage = Loadable({
+	loader: () => import('./Profile'),
+	loading: Loading,
+});
 
 // Auth pages
 export const Login = Loadable({

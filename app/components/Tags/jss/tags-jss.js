@@ -9,7 +9,7 @@ const styles = theme => ({
 		boxShadow: theme.shade.light,
 		color: theme.palette.text.primary,
 		width: '100%',
-		textAlign: 'center',
+		
 	}),
 	cloud: {
 		display: 'inline',
@@ -42,6 +42,13 @@ const styles = theme => ({
 	},
 	divider: {
 		margin: `${theme.spacing(1.5)}px 0`,
+	},
+	title: {
+		fontSize: 20,
+		height: 30,
+		textAlign: 'left',
+		marginBottom: '3%',
+		fontWeight: theme.typography.fontWeightMedium
 	},
 });
 

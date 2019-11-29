@@ -38,20 +38,11 @@ class ThemeWrapper extends React.Component {
 		};
 	}
 
-	componentWillMount = () => {
-		this.onProgressShow();
-	}
-
 	componentDidMount = () => {
 		const { palette } = this.props;
 		this.playProgress();
 		this.setState({ palette });
 	}
-
-	componentWillUnmount() {
-		this.onProgressShow();
-	}
-
 	onProgressShow = () => {
 		this.setState({ pageLoaded: true });
 	}
@@ -90,7 +81,7 @@ class ThemeWrapper extends React.Component {
 						/>
 
 						<AppContext.Provider value={this.handleChangeMode}>
-							<SnackbarProvider maxSnack={3}>
+							<SnackbarProvider maxSnack={3} >
 								{children}
 							</SnackbarProvider>
 						</AppContext.Provider>

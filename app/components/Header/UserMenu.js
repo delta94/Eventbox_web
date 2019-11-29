@@ -44,7 +44,7 @@ class UserMenu extends React.Component {
 	};
 
 	render() {
-		const { classes, dark } = this.props;
+		const { classes, dark} = this.props;
 		const { anchorEl, openMenu } = this.state;
 		return (
 			<div>

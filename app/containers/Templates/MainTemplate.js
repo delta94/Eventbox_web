@@ -42,7 +42,7 @@ class MainTemplate extends React.Component {
 			deco,
 			bgPosition,
 			layout,
-			changeMode
+			changeMode,
 		} = this.props;
 		
 		return (

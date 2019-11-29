@@ -22,7 +22,7 @@ class TopMenuLayout extends React.Component {
 			history,
 			toggleDrawer,
 			sidebarOpen,
-			loadTransition
+			loadTransition,
 		} = this.props;
 		return (
 			<Fragment>

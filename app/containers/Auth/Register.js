@@ -6,8 +6,7 @@ import { withSnackbar } from 'notistack';
 import brand from 'dan-api/dummy/brand';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
@@ -20,17 +19,10 @@ import Hidden from '@material-ui/core/Hidden';
 import logo from 'dan-images/logo.svg';
 import { ContentDivider } from '../../components/Divider';
 import styles from 'dan-components/Forms/user-jss';
-
-import {
-	registerService,
-	checkUsernameAvailability,
-	checkEmailAvailability
-} from '../../redux/services/authService';
-
+import { registerService, checkUsernameAvailability, checkEmailAvailability } from '../../redux/services/authService';
 import {
 	USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-	EMAIL_MAX_LENGTH,
-	PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
+	EMAIL_MAX_LENGTH, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from 'dan-actions/actionConstants';
 
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
@@ -72,10 +64,24 @@ class Register extends React.Component {
 
 		registerService(registerRequest)
 			.then(response => {
-				this.props.enqueueSnackbar(registerOK.message, { variant: registerOK.variant });
+				this.props.enqueueSnackbar(registerOK.message, {
+					variant: registerOK.variant,
+					preventDuplicate: true,
+					anchorOrigin: {
+						vertical: 'top',
+						horizontal: 'center',
+					},
+				});
 				this.props.history.push("/login");
 			}).catch(error => {
-				this.props.enqueueSnackbar(error.message || registerFailled.message, { variant: registerFailled.variant });
+				this.props.enqueueSnackbar(error.message || registerFailled.message, {
+					variant: registerFailled.variant,
+					preventDuplicate: true,
+					anchorOrigin: {
+						vertical: 'top',
+						horizontal: 'center',
+					},
+				});
 			});
 	}
 	// ========= validation function =========

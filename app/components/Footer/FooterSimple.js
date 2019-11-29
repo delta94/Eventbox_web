@@ -6,29 +6,15 @@ import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import Type from 'dan-styles/Typography.scss';
 import footerLink from 'dan-api/ui/footer';
-import Divider from '@material-ui/core/Divider';
 import styles from './jss/footer-jss';
 import PaperSheet from '../Paper/PaperSheet';
 
-class Footer extends React.Component {
+class FooterSimple extends React.Component {
 	render() {
-		const { classes, title } = this.props;
+		const { classes, showBtn } = this.props;
 		return (
 			<div className={classes.root}>
 				<PaperSheet>
-					<Divider className={classes.divider} />
-					<div className={Type.textCenter}>
-						<Button className={classNames(classes.languageBtn, Type.textGrey)} >
-							Francais (FR)
-                        </Button>
-						<Button className={classNames(classes.languageBtn, Type.textInfo)} >
-							English (US)
-                        </Button>
-						<Button className={classNames(classes.languageBtn, Type.textInfo)} >
-							Espagnole
-                        </Button>
-					</div>
-					<Divider className={classes.divider} />
 					<div className={Type.textCenter}>
 						<Button href={footerLink.cgi} className={classNames(classes.footerlink, Type.textGrey)} >
 							A propos
@@ -51,6 +37,11 @@ class Footer extends React.Component {
 						<Button href={footerLink.contact} className={classNames(classes.footerlink, Type.textGrey)} >
 							Support
                     	</Button>
+						{showBtn && (
+							<Button className={classNames(classes.desabledAccount)} >
+								Delete account
+                    		</Button>
+						)}
 					</div>
 					<div className={classes.copyright}>
 						<Typography className={classNames(classes.footerlink, Type.textGrey, Type.textCenter)}>
@@ -63,9 +54,13 @@ class Footer extends React.Component {
 	}
 }
 
-Footer.propTypes = {
+FooterSimple.propTypes = {
 	classes: PropTypes.object.isRequired,
-	title: PropTypes.string.isRequired
+	showBtn: PropTypes.bool,
 }
 
-export default withStyles(styles)(Footer);
+FooterSimple.defaultProps = {
+	showBtn: false,
+}
+
+export default withStyles(styles)(FooterSimple);

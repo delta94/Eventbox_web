@@ -12,78 +12,105 @@ import Avatar from '@material-ui/core/Avatar';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
-import Favorite from '@material-ui/icons/Favorite';
-import PhotoLibrary from '@material-ui/icons/PhotoLibrary';
 import Divider from '@material-ui/core/Divider';
+import DateRange from '@material-ui/icons/DateRange';
+import Chat from '@material-ui/icons/Chat';
+import EventAvailable from '@material-ui/icons/EventAvailable';
+import FloatingPanel from '../Panel/FloatingPanel';
+import UpdateProfileForm from '../Forms/UpdateProfileForm';
 import styles from './cardStyle-jss';
 
 class ProfileCard extends React.Component {
-  render() {
-    const {
-      classes,
-      cover,
-      avatar,
-      name,
-      title,
-      connection,
-      isVerified,
-      btnText
-    } = this.props;
-
-    return (
-      <Card className={classes.cardSocmed}>
-        <CardMedia
-          className={classes.mediaProfile}
-          image={cover}
-          title="cover"
-        />
-        <CardContent className={classes.contentProfile}>
-          <Avatar alt="avatar" src={avatar} className={classes.avatarBig} />
-          <Typography variant="h6" className={classes.name} gutterBottom>
-            {name}
-            {isVerified && <VerifiedUser className={classes.verified} />}
-          </Typography>
-          <Typography className={classes.subheading} gutterBottom>
-            <span className={Type.regular}>{title}</span>
-          </Typography>
-          <Typography variant="caption" component="p">
-            {connection}
-            &nbsp;connection
-          </Typography>
-          <Button className={classes.buttonProfile} size="large" variant="outlined" color="secondary">
-            {btnText}
-          </Button>
-        </CardContent>
-        <Divider />
-        <CardActions>
-          <BottomNavigation
-            showLabels
-            className={classes.bottomLink}
-          >
-            <BottomNavigationAction label="20 Connection" icon={<SupervisorAccount />} />
-            <BottomNavigationAction label="10 Favorites" icon={<Favorite />} />
-            <BottomNavigationAction label="5 Albums" icon={<PhotoLibrary />} />
-          </BottomNavigation>
-        </CardActions>
-      </Card>
-    );
-  }
+	render() {
+		const {
+			classes,
+			cover,
+			avatar,
+			username,
+			name,
+			sex,
+			isVerified,
+			btnText,
+			open,
+			closeForm,
+			submitProfile,
+			inputChange,
+			compose
+		} = this.props;
+		const branch = '';
+		return (
+			<div>
+				<Card className={classes.cardSocmed}>
+					<CardMedia
+						className={classes.mediaProfile}
+						image={cover}
+					/>
+					<CardContent className={classes.contentProfile}>
+						<Avatar alt="avatar" src={avatar} className={classes.avatarBig} />
+						<Typography variant="h6" className={classes.name} gutterBottom>
+							{username} &nbsp;
+						{isVerified && <VerifiedUser className={classes.verified} />}
+						</Typography>
+						<Typography className={classes.subheading} gutterBottom>
+							<span className={Type.regular}>{name}</span>
+						</Typography>
+						<Typography variant="caption" component="p">
+							{sex}
+						</Typography>
+						<Button onClick={compose} className={classes.buttonProfile} size="large" variant="outlined" color="secondary">
+							{btnText}
+						</Button>
+					</CardContent>
+					<Divider />
+					<CardActions>
+						<BottomNavigation
+							showLabels
+							className={classes.bottomLink}
+						>
+							<BottomNavigationAction label="Mes events" icon={<DateRange />} />
+							<BottomNavigationAction label="Mes messages" icon={<Chat />} />
+							<BottomNavigationAction label="Mes invitations" icon={<EventAvailable />} />
+						</BottomNavigation>
+					</CardActions>
+				</Card>
+				<FloatingPanel
+					openForm={open}
+					branch={branch}
+					closeForm={closeForm}
+					title="Mettre a jour votre profil"
+					extraSize
+				>
+					<UpdateProfileForm
+						name={name}
+						sex={sex}
+						submitProfile={submitProfile}
+						closeForm={closeForm}
+						inputChange={inputChange}
+					/>
+				</FloatingPanel>
+			</div>
+		);
+	}
 }
 
 ProfileCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  cover: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  connection: PropTypes.number.isRequired,
-  btnText: PropTypes.string.isRequired,
-  isVerified: PropTypes.bool
+	classes: PropTypes.object.isRequired,
+	cover: PropTypes.string,
+	avatar: PropTypes.string,
+	username: PropTypes.string.isRequired,
+	name: PropTypes.string,
+	sex: PropTypes.string,
+	btnText: PropTypes.string.isRequired,
+	isVerified: PropTypes.bool,
+	open: PropTypes.bool.isRequired,
+	compose: PropTypes.func.isRequired,
+	closeForm: PropTypes.func.isRequired,
+	submitProfile: PropTypes.func.isRequired,
+	inputChange: PropTypes.func.isRequired,
 };
 
 ProfileCard.defaultProps = {
-  isVerified: false
+	isVerified: false,
 };
 
 export default withStyles(styles)(ProfileCard);

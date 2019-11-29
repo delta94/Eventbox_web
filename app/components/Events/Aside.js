@@ -58,8 +58,11 @@ class Aside extends React.Component {
 					open={openForm}
 					closeForm={discard}
 				/>
-				<Tags tagData={['Sport','Education','Social','Language','Party']} />
-				<Footer />
+				<Tags 
+					title="Interets"
+					tagData={['Sport','Education','Social','Language','Party']} 
+				/>
+				<Footer title="Langues"/>
 			</div>
 		)
 	}

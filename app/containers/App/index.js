@@ -6,7 +6,9 @@ import Application from './Application';
 import ThemeWrapper, { AppContext } from './ThemeWrapper';
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
+
 class App extends React.Component {
+
 	render() {
 		return (
 			<ThemeWrapper>
@@ -14,19 +16,15 @@ class App extends React.Component {
 					{(changeMode) => (
 						<Switch>
 							<Route
-								exact path={[
-									"/",
-									"/matchs",
-									"/explore",
-									"/messages",
-									"/press",
-									"/contacts",
-									"/settings",
-									"/help"
-								]}
+								exact
+								path={["/", "/matchs", "/explore", "/messages", "/press", "/contacts", "/profile", "/settings", "/help"]}
 								render={(props) => <Application {...props} changeMode={changeMode} />}
 							/>
-							<Route exact path={["/login", "/register"]} component={Auth} />
+							<Route
+								exact
+								path={["/login", "/register"]}
+								component={Auth}
+							/>
 							<Route component={NotFound} />
 						</Switch>
 					)}

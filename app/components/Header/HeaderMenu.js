@@ -80,7 +80,7 @@ class HeaderMenu extends React.Component {
 			openMobileNav,
 			loadTransition,
 			isLogin,
-			logoLink
+			logoLink,
 		} = this.props;
 		const {
 			status,

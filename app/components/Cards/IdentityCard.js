@@ -7,66 +7,77 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Ionicon from 'react-ionicons';
+import CardGiftcard from '@material-ui/icons/CardGiftcard';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import LocalPhone from '@material-ui/icons/LocalPhone';
-import LocationOn from '@material-ui/icons/LocationOn';
+import School from '@material-ui/icons/School';
+import Edit from '@material-ui/icons/Edit';
 import styles from './cardStyle-jss';
+import { IconButton } from '@material-ui/core';
 
 class IdentityCard extends React.Component {
-  render() {
-    const {
-      classes,
-      title,
-      name,
-      avatar,
-      phone,
-      address,
-    } = this.props;
-    return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="subtitle1" className={classes.title}>{title}</Typography>
-          <Divider className={classes.divider} />
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar
-                alt={name}
-                src={avatar}
-                className={classes.avatar}
-              />
-            </ListItemAvatar>
-            <ListItemText primary="Name" secondary={name} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <LocalPhone />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Phone" secondary={phone} />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <LocationOn />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Address" secondary={address} />
-          </ListItem>
-        </CardContent>
-      </Card>
-    );
-  }
+	render() {
+		const {
+			classes,
+			title,
+			email,
+			phone,
+			birthday,
+			ufr,
+		} = this.props;
+		return (
+			<Card className={classes.card}>
+				<CardContent>
+					<Typography variant="subtitle1" className={classes.title}>{title}</Typography>
+					<IconButton className={classes.updateBtn} color="primary"> <Edit /> </IconButton>
+					<Divider className={classes.divider} />
+					<ListItem>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<Ionicon icon="md-mail" />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Email" secondary={email} />
+					</ListItem>
+					<ListItem>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<LocalPhone />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Phone" secondary={phone} />
+					</ListItem>
+					<ListItem>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<CardGiftcard />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Birthday" secondary={birthday} />
+					</ListItem>
+					<ListItem>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<School/>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="UFR" secondary={ufr} />
+					</ListItem>
+				</CardContent>
+			</Card>
+		);
+	}
 }
 
 IdentityCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
+	classes: PropTypes.object.isRequired,
+	title: PropTypes.string.isRequired,
+	email: PropTypes.string.isRequired,
+	ufr: PropTypes.string,
+	phone: PropTypes.string,
+	birthday: PropTypes.string,
 };
 
 export default withStyles(styles)(IdentityCard);
