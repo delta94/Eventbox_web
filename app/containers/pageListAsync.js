@@ -2,6 +2,10 @@ import Loadable from 'react-loadable';
 import Loading from 'dan-components/Loading';
 
 // Menu page
+export const WelcomePage = Loadable({
+	loader: () => import('./Home/Welcome'),
+	loading: Loading,
+  });
 export const HomePage = Loadable({
   loader: () => import('./Home'),
   loading: Loading,
@@ -52,6 +56,10 @@ export const InvalidToken = Loadable({
   loader: () => import('./Auth/InvalidToken'),
   loading: Loading,
 });
+export const ValidateAccount = Loadable({
+	loader: () => import('./Auth/ValidateAccount'),
+	loading: Loading,
+  });
 
 // Generic
 export const ComingSoon = Loadable({

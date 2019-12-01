@@ -37,7 +37,8 @@ class Login extends React.Component {
 	state = {
 		showPassword: false,
 		usernameOrEmail: { value: '' },
-		password: { value: '' }
+		password: { value: '' },
+		currentUser: null,
 	}
 
 	handleClickShowPassword = () => {
@@ -72,7 +73,8 @@ class Login extends React.Component {
 		loginService(loginRequest)
 			.then(response => {
 				localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-				this.props.onLogin();
+				this.setState({currentUser: response})
+				this.props.onLogin(this.state.currentUser);
 			}).catch(error => {
 				if (error.status === 401) {
 					this.props.enqueueSnackbar(loginBad.message, {

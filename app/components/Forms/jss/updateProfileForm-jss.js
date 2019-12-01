@@ -15,6 +15,10 @@ const styles = theme => ({
 		marginRight: theme.spacing(),
 		textTransform: 'none'
 	},
+	btnArea: {
+		textAlign: 'right',
+		marginRight: '2%',
+	},
 	preview: {
 		display: 'flex',
 		marginBottom: 20,

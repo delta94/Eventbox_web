@@ -28,7 +28,6 @@ export PaymentForm from './Forms/PaymentForm';
 export Review from './Forms/Review';
 export SideReview from './Forms/SideReview';
 export CreateEventForm from './Forms/CreateEventForm';
-export UpdateProfileForm from './Forms/UpdateProfileForm';
 
 // Texteditor Toolbar
 export HeadlinesButton from './TextEditor/HeadlinesButton';
@@ -67,3 +66,6 @@ export ChatRoom from './Chat/ChatRoom';
 export ErrorWrap from './Error/ErrorWrap';
 //Tags
 export Tags from './Tags';
+// Profile
+export UpdateAbout from './Profile/UpdateAbout';
+export UpdateInterest from './Profile/UpdateInterest';

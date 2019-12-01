@@ -19,7 +19,7 @@ import 'dan-styles/vendors/react-draft-wysiwyg/react-draft-wysiwyg.css';
 import isImage from './helpers/helpers.js';
 import styles from './jss/updateProfileForm-jss';
 
-class UpdateProfileForm extends React.Component {
+class UpdateProfileBaseForm extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -190,7 +190,7 @@ class UpdateProfileForm extends React.Component {
 	}
 }
 
-UpdateProfileForm.propTypes = {
+UpdateProfileBaseForm.propTypes = {
 	classes: PropTypes.object.isRequired,
 	sex: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -199,4 +199,4 @@ UpdateProfileForm.propTypes = {
 	inputChange: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(UpdateProfileForm);
+export default withStyles(styles)(UpdateProfileBaseForm);

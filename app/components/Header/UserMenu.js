@@ -28,7 +28,7 @@ import styles from './jss/header-jss';
 class UserMenu extends React.Component {
 	state = {
 		anchorEl: null,
-		openMenu: null
+		openMenu: null,
 	};
 
 	handleMenu = menu => (event) => {
@@ -44,7 +44,7 @@ class UserMenu extends React.Component {
 	};
 
 	render() {
-		const { classes, dark} = this.props;
+		const { classes, dark } = this.props;
 		const { anchorEl, openMenu } = this.state;
 		return (
 			<div>

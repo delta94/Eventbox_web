@@ -9,11 +9,26 @@ const styles = theme => ({
 		backgroundColor: theme.palette.type === 'dark' ? fade(theme.palette.grey[800], 0.75) : fade(theme.palette.background.paper, 0.85),
 	},
 	divider: {
-		marginTop: `${theme.spacing(1.5)}px`,
-		marginLeft: `${theme.spacing(12)}px`,
-		width: '86%',
+		marginTop: `${theme.spacing(2)}px`,
+		marginBottom: `${theme.spacing(2)}px`,
 	},
-	// ===== main section ========
+	// ===== steppers ========
+	rootStepper: {
+		width: '100%',
+	},
+	button: {
+		marginRight: theme.spacing(1),
+	},
+	instructions: {
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
+	},
+	btnActions: {
+		marginTop: '2%',
+	},
+	paper: {
+		
+	},
 });
 
 export default styles;

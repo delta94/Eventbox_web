@@ -17,7 +17,7 @@ import DateRange from '@material-ui/icons/DateRange';
 import Chat from '@material-ui/icons/Chat';
 import EventAvailable from '@material-ui/icons/EventAvailable';
 import FloatingPanel from '../Panel/FloatingPanel';
-import UpdateProfileForm from '../Forms/UpdateProfileForm';
+import UpdateProfileBaseForm from '../Forms/UpdateProfileBaseForm';
 import styles from './cardStyle-jss';
 
 class ProfileCard extends React.Component {
@@ -80,7 +80,7 @@ class ProfileCard extends React.Component {
 					title="Mettre a jour votre profil"
 					extraSize
 				>
-					<UpdateProfileForm
+					<UpdateProfileBaseForm
 						name={name}
 						sex={sex}
 						submitProfile={submitProfile}
