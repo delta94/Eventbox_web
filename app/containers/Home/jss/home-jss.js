@@ -12,9 +12,18 @@ const styles = theme => ({
 		marginTop: `${theme.spacing(2)}px`,
 		marginBottom: `${theme.spacing(2)}px`,
 	},
-	// ===== steppers ========
-	rootStepper: {
+	//============== form ======
+	field: {
 		width: '100%',
+		marginTop: 0,
+		'& svg': {
+			color: theme.palette.grey[400],
+			fontSize: 18,
+		}
+	},
+	formControl: {
+		width: '100%',
+		marginBottom: '2%',
 	},
 	button: {
 		marginRight: theme.spacing(1),
@@ -23,12 +32,17 @@ const styles = theme => ({
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(1),
 	},
+	formSection: {
+		marginTop: '3%',
+		textAlign: 'center',
+	},
+	btnArea: {
+		textAlign: 'right',
+		margin: '5% 0 2% 0',
+	},
 	btnActions: {
-		marginTop: '2%',
-	},
-	paper: {
-		
-	},
+		margin: '2% 0 2% 2%',
+	}
 });
 
 export default styles;

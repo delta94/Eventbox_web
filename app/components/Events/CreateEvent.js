@@ -10,16 +10,17 @@ import FloatingPanel from '../Panel/FloatingPanel';
 import styles from './jss/createEvent-jss';
 
 class CreateEvent extends React.Component {
+
+	handleSubmit = () => {
+
+	}
+
 	render() {
 		const {
 			classes,
 			open,
 			closeForm,
-			submitEvent,
-			privacy,
-			title,
-			inputChange,
-			compose
+			compose,
 		} = this.props;
 		const branch = '';
 		return (
@@ -40,11 +41,8 @@ class CreateEvent extends React.Component {
 					extraSize
 				>
 					<CreateEventForm
-						title={title}
-						privacy={privacy}
-						submitEvent={submitEvent}
+						submitEvent={this.handleSubmit}
 						closeForm={closeForm}
-						inputChange={inputChange}
 					/>
 				</FloatingPanel>
 			</div>
@@ -55,12 +53,8 @@ class CreateEvent extends React.Component {
 CreateEvent.propTypes = {
 	classes: PropTypes.object.isRequired,
 	open: PropTypes.bool.isRequired,
-	privacy: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
 	compose: PropTypes.func.isRequired,
 	closeForm: PropTypes.func.isRequired,
-	submitEvent: PropTypes.func.isRequired,
-	inputChange: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(CreateEvent);

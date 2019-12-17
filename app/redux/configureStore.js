@@ -3,6 +3,7 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
@@ -31,10 +32,11 @@ export default function configureStore(initialState = {}, history) {
 
 	const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
 
-	// Create the store with two middlewares
+	// Create the store with 3 middlewares
 	// 1. sagaMiddleware: Makes redux-sagas work
 	// 2. routerMiddleware: Syncs the location/URL path to the state
-	const middlewares = [sagaMiddleware, routerMiddleware(history)];
+	// 3. Thunk middleware
+	const middlewares = [sagaMiddleware, routerMiddleware(history), thunk];
 
 	const enhancers = [applyMiddleware(...middlewares)];
 

@@ -96,7 +96,7 @@ class Home extends PureComponent {
 							</Paper>
 						</Grid>
 						<Grid item md={3} lg={3} sm={12} xs={12}>
-							<Aside />
+							<Aside currentUserId={1}/>
 						</Grid>
 						<Grid item md={2} lg={2}></Grid>
 					</Grid>

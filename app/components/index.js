@@ -66,6 +66,7 @@ export ChatRoom from './Chat/ChatRoom';
 export ErrorWrap from './Error/ErrorWrap';
 //Tags
 export Tags from './Tags';
-// Profile
-export UpdateAbout from './Profile/UpdateAbout';
-export UpdateInterest from './Profile/UpdateInterest';
+// Welcome
+export UpdateAbout from './Welcome/UpdateAbout';
+export UpdateInterest from './Welcome/UpdateInterest';
+export MatchsEvent from './Welcome/MatchsEvent';

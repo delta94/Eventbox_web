@@ -108,7 +108,8 @@ const styles = theme => ({
 		zIndex: 1300,
 	},
 	large: {
-		width: 650
+		width: 650,
+		height: 670,
 	},
 	bodyForm: {
 		position: 'relative',
@@ -117,8 +118,12 @@ const styles = theme => ({
 		[theme.breakpoints.down('sm')]: {
 			padding: '15px 10px'
 		},
-		maxHeight: 450,
+		maxHeight: 650,
 		overflow: 'auto',
+	},
+	children: {
+		margin: 0,
+		padding: 0
 	}
 });
 

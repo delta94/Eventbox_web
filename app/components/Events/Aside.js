@@ -1,77 +1,82 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { bindActionCreators } from 'redux';
+import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 import Footer from '../Footer';
-import { CreateEvent, Tags} from 'dan-components';
-import styles from './jss/aside-jss';
+import Tags from '../Tags';
+import CreateEventForm from '../Forms/CreateEventForm';
+import {createEvent} from '../../redux/services/eventService';
 import {
 	composeAction,
 	discardAction,
-	postAction,
 } from 'dan-actions/EventActions';
 
-class Aside extends React.Component {
-	state = {
-		privacy: 'public',
-		title: '',
-		validMail: '',
-	};
+const createFailled = { variant: 'error', message: 'event info is bad' };
+const createSuccess = { variant: 'success', message: 'event created with success' };
 
-	handleChange = (event, name) => {
-		this.setState({
-			[name]: event.target.value,
-		});
-	};
+class Aside extends React.Component {
+
+	handleSubmit = (file, title, description, location, category, startTime, endTime) => {
+
+		//const organizerId = this.props.currentUserId;
+
+		/*createEvent(file, title, description, location, category, startTime, endTime, organizerId)
+			.then(response => {
+				console.log(response);
+				this.setState({
+					createdEventId: response.eventId,
+					organizerId: response.organizerId,
+				});
+				this.props.enqueueSnackbar(createSuccess.message, {
+					variant: createSuccess.variant,
+					preventDuplicate: true,
+					anchorOrigin: {
+						vertical: 'top',
+						horizontal: 'center',
+					},
+				});
+			}).catch(error => {
+				this.props.enqueueSnackbar(error.message || createFailled.message, {
+					variant: createFailled.variant,
+					preventDuplicate: true,
+					anchorOrigin: {
+						vertical: 'top',
+						horizontal: 'center',
+					},
+				});
+			});*/
+	}
 
 	handleCompose = () => {
 		const { compose } = this.props;
 		compose();
-		this.setState({
-			privacy: '  ',
-			title: '  ',
-		});
 	}
 
 	render() {
 		const {
-			classes,
 			openForm,
 			discard,
-			submitEvent,
 		} = this.props;
-
-		const {
-			privacy,
-			title,
-		} = this.state;
-
 		return (
 			<div>
-				<CreateEvent
-					title={title}
-					privacy={privacy}
+				<CreateEventForm
 					compose={this.handleCompose}
-					submitEvent={submitEvent}
-					inputChange={this.handleChange}
 					open={openForm}
 					closeForm={discard}
+					submitEvent={this.handleSubmit}
 				/>
-				<Tags 
+				<Tags
 					title="Interets"
-					tagData={['Sport','Education','Social','Language','Party']} 
+					tagData={['Sport', 'Education', 'Social', 'Language', 'Party']}
 				/>
-				<Footer title="Langues"/>
+				<Footer title="Langues" />
 			</div>
 		)
 	}
 }
 
 Aside.propTypes = {
-	classes: PropTypes.object.isRequired,
 	discard: PropTypes.func.isRequired,
-	submitEvent: PropTypes.func.isRequired,
 	openForm: PropTypes.bool.isRequired,
 }
 
@@ -85,13 +90,12 @@ const mapStateToProps = state => ({
 const constDispatchToProps = dispatch => ({
 	compose: () => dispatch(composeAction),
 	discard: () => dispatch(discardAction),
-	submitEvent: bindActionCreators(postAction, dispatch),
 	closeNotif: () => dispatch(closeNotifAction),
-  });
-  
-  const AsideMapped = connect(
+});
+
+const AsideMapped = connect(
 	mapStateToProps,
 	constDispatchToProps
-  )(Aside);
+)(Aside);
 
-export default withStyles(styles)(AsideMapped);
+export default withSnackbar(AsideMapped);

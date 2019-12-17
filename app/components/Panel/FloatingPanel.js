@@ -64,7 +64,9 @@ class FloatingPanel extends React.Component {
 							</Tooltip>
 						</div>
 					</header>
+					<div className={classes.children}>
 					{children}
+					</div>
 				</section>
 			</div>
 		);
