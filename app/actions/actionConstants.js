@@ -19,6 +19,9 @@ export const CLEAR = 'CLEAR';
 
 // Events
 export const FETCH_TIMELINE_DATA = 'FETCH_TIMELINE_DATA';
+export const FETCH_EVENT_SUCCESS = 'FETCH_EVENT_SUCCESS';
+export const FETCH_EVENT_ERROR = 'FETCH_EVENT_ERROR';
+export const FETCH_EVENT_PENDING = 'FETCH_EVENT_PENDING';
 export const FETCH_COMMENT_DATA = 'FETCH_COMMENT_DATA';
 export const SHOW_DETAIL_EVENT = 'SHOW_DETAIL_EVENT';
 export const POST = 'POST';
@@ -74,3 +77,9 @@ export const SHOW_DETAIL_PRODUCT = 'SHOW_DETAIL_PRODUCT';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const DELETE_CART_ITEM = 'DELETE_CART_ITEM';
 export const CHECKOUT = 'CHECKOUT';
+
+// Auth
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGIN_PENDING = 'LOGIN_PENDING';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';

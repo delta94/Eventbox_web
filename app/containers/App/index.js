@@ -1,60 +1,13 @@
 import React from 'react';
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
-import { withSnackbar } from 'notistack';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import NotFound from 'containers/Generic/NotFound/NotFoundPage';
 import Auth from './Auth';
 import Application from './Application';
-import Welcome from '../Home/Welcome';
 import ThemeWrapper, { AppContext } from './ThemeWrapper';
-import PrivateRoute from './PrivateRoute';
-import { ACCESS_TOKEN } from 'dan-api/apps/constants';
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 
 class App extends React.Component {
-	state = {
-		currentUser: null,
-		isAuthenticated: false,
-		isLoading: false
-	}
-
-	//=========== handling login ===========
-	handleLogin = (user) => {
-		this.setState({ currentUser: user });
-		const isActive = this.state.currentUser.isActive;
-		const interests = this.state.currentUser.interests;
-		if (!isActive) {
-			this.setState({ isAuthenticated: false });
-			this.props.history.push('/validate_account');
-		} else if (interests.length === 0) {
-			this.setState({ isAuthenticated: true });
-			this.props.history.push({
-				pathname: '/welcome',
-				state: {currentUser: this.state.currentUser}
-			});
-		} else {
-			this.setState({ isAuthenticated: true });
-			this.props.history.push({
-				pathname: '/',
-				state: {currentUserId: this.state.currentUser.id}
-			});
-		}
-
-	}
-
-	//=========== handling logout ===============
-	handleLogout = () => {
-		localStorage.removeItem(ACCESS_TOKEN);
-
-		const redirectTo = "/login";
-
-		this.setState({
-			currentUser: null,
-			isAuthenticated: false
-		});
-
-		this.props.history.push(redirectTo);
-	}
 
 	render() {
 		return (
@@ -70,7 +23,7 @@ class App extends React.Component {
 							<Route
 								exact
 								path={['/login', '/register', '/register_success', '/invalid_token', '/validate_account']}
-								render={(props) => <Auth {...props} handleLogin={this.handleLogin} />}
+								render={(props) => <Auth {...props} />}
 							/>
 							<Route component={NotFound} />
 						</Switch>

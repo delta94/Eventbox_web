@@ -1,7 +1,19 @@
 import { API_BASE_URL, ACCESS_TOKEN } from 'dan-api/apps/constants';
-import {request, parseJSON, checkStatus} from '../../utils/request';
+import {request} from '../../utils/request';
 
-// ===== create a new event ======
+function parseDataJSON(response) {
+	if (response.status === 204 || response.status === 205) {return null;}
+	if (response.status === 201) {return response;}
+	return response.json();
+}
+
+function checkResponseStatus(response) {
+	if (response.status >= 200 && response.status < 300) {return response;}
+	const error = new Error(response.statusText);
+	error.response = response;
+	throw error;
+}
+// ===== create a new event (ok) ======
 export function createEvent(file, title, desc, location, category, start, end, userId) {
 
 	const CREATE_EVENT_ENDPOINT = API_BASE_URL + "/events";
@@ -26,10 +38,10 @@ export function createEvent(file, title, desc, location, category, start, end, u
 		method: "POST",
 		body: formData,
 		headers: myHeaders,
-	}).then(checkStatus).then(parseJSON);
+	}).then(checkResponseStatus).then(parseDataJSON);
 }
 
-// ===== join a event ======
+// ===== join a event(to test) ======
 export function joinEvent(eventId, userId) {
 
 	const JOIN_EVENT_ENDPOINT = API_BASE_URL + "/events/" + eventId + "/join";
@@ -38,7 +50,7 @@ export function joinEvent(eventId, userId) {
 	return request(JOIN_EVENT_ENDPOINT, options);
 }
 
-// ===== find one event by his id =====
+// ===== find one event by his id (ok) =====
 export function findEvent(eventId) {
 
 	const FIND_EVENT_ENDPOINT = API_BASE_URL + "/events/" + eventId;
@@ -47,7 +59,7 @@ export function findEvent(eventId) {
 	return request(FIND_EVENT_ENDPOINT, options);
 }
 
-//===== update one event partially ====
+//===== update one event partially (to test) ====
 export function updateEventWithPatch(eventId, eventRequest) {
 
 	const UPDATE_EVENT_PATCH_ENDPOINT = API_BASE_URL + "/events/" + eventId;
@@ -59,7 +71,7 @@ export function updateEventWithPatch(eventId, eventRequest) {
 
 
 
-//===== find all user matchs events =====
+//===== find all user matchs events (to refactor in API) =====
 export function matchEvents(userId) {
 
 	const MATCH_EVENT_ENDPOINT = API_BASE_URL + "/events/" + userId + "/matchs";
@@ -68,7 +80,7 @@ export function matchEvents(userId) {
 	return request(MATCH_EVENT_ENDPOINT, options);
 }
 
-//===== find all user events =====
+//===== find all user events (ok) =====
 export function findUserEvents(userid) {
 
 	const USER_EVENT_ENDPOINT = API_BASE_URL + "/events/" + userid + "/all";
@@ -77,7 +89,7 @@ export function findUserEvents(userid) {
 	return request(USER_EVENT_ENDPOINT, options);
 }
 
-//===== find all past events =====
+//===== find all past events (ok) =====
 export function findPastEvents() {
 
 	const PAST_EVENT_ENDPOINT = API_BASE_URL + "/events/past";
@@ -86,7 +98,7 @@ export function findPastEvents() {
 	return request(PAST_EVENT_ENDPOINT, options);
 }
 
-//===== find all user past events =====
+//===== find all user past events (ok) =====
 export function findUserPastEvents(userId) {
 
 	const USER_PAST_EVENT_ENDPOINT = API_BASE_URL + "/events/" + userId + "/past";
@@ -95,21 +107,33 @@ export function findUserPastEvents(userId) {
 	return request(USER_PAST_EVENT_ENDPOINT, options);
 }
 
-//===== find all incoming events =====
+//===== find all incoming events (ok but doesn't take event's time into account) =====
 export function findFutureEvents() {
 
 	const FUTURE_EVENT_ENDPOINT = API_BASE_URL + "/events/future";
-	const options = { method: 'GET' };
+	const myHeaders = new Headers();
+	if (localStorage.getItem(ACCESS_TOKEN)) {
+		myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+	}
 
-	return request(FUTURE_EVENT_ENDPOINT, options);
+	return fetch(FUTURE_EVENT_ENDPOINT, {
+		method: "GET",
+		headers: myHeaders,
+	}).then(checkResponseStatus).then(parseDataJSON);
 }
 
-//===== find all user incoming events =====
+//===== find all user incoming events (Ok ) =====
 export function findUserFutureEvents(userId) {
 
-	const USER_FUTURE_EVENT_ENDPOINT = API_BASE_URL + "/events/" + userId + "/future";
-	const options = { method: 'GET' };
+	const USER_FUTURE_EVENT_ENDPOINT = API_BASE_URL + "/events/" + userId + "/all";
+	const myHeaders = new Headers();
+	if (localStorage.getItem(ACCESS_TOKEN)) {
+		myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+	}
 
-	return request(USER_FUTURE_EVENT_ENDPOINT, options);
+	return fetch(USER_FUTURE_EVENT_ENDPOINT, {
+		method: "GET",
+		headers: myHeaders,
+	}).then(checkResponseStatus).then(parseDataJSON);
 }
 

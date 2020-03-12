@@ -17,11 +17,10 @@ import {
 class Auth extends React.Component {
 
 	render() {
-		const { handleLogin } = this.props;
 		return (
 			<Outer>
 				<Switch>
-					<Route exact path="/login" render={(props) => <Login onLogin={handleLogin} {...props} />} />
+					<Route exact path="/login" component={Login} />
 					<Route path="/register" component={Register} />
 					<Route path="/reset_password" component={ResetPassword} />
 					<Route path="/register_success" component={RegisterSuccess} />
@@ -35,8 +34,5 @@ class Auth extends React.Component {
 		);
 	}
 }
-Auth.propTypes = {
-	handleLogin: PropTypes.func.isRequired,
-};
 
 export default Auth;

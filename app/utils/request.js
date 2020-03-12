@@ -1,30 +1,34 @@
 import { ACCESS_TOKEN } from 'dan-api/apps/constants';
-
 /**
  * Parses the JSON returned by a network request
  */
-export function parseJSON(response) {
+function parseJSON(response) {
 	if (response.status === 204 || response.status === 205) {
 		return null;
 	}
-	if (response.status === 201) {return response;}
+	if (response.status === 201) {
+		return response;
+	}
 	return response.json();
 }
 
 /**
  * Checks if a network request came back fine, and throws an error if not
  */
-export function checkStatus(response) {
+function checkStatus(response) {
 	if (response.status >= 200 && response.status < 300) {
 		return response;
 	}
+
 	const error = new Error(response.statusText);
 	error.response = response;
 	throw error;
 }
 
+/**
+ * Requests a URL, returning a promise
+ */
 export default function request(url, options, ctype = 'application/json') {
-
 	const headers = new Headers({
 		'Content-Type': ctype,
 	})

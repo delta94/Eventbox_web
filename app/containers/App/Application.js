@@ -3,6 +3,8 @@ import { PropTypes } from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
 import MainTemplate from '../Templates/MainTemplate';
+import PrivateRoute from './PrivateRoute';
+import { connect } from 'react-redux';
 import {
 	NotFound, HomePage, ExplorePage, WelcomePage,
 	MessagePage, PressPage, ContactPage,
@@ -12,24 +14,24 @@ import {
 class Application extends React.Component {
 
 	render() {
-		const { changeMode, history } = this.props;
+		const { changeMode, history, isAuthenticated } = this.props;
 		
 		return (
 			<MainTemplate history={history} changeMode={changeMode}>
 				<Switch>
 					{ /* Menu pages */}
-					<Route exact path="/" component={HomePage} />
-					<Route exact path="/welcome" component={WelcomePage} />
-					<Route exact path="/matchs" component={MatchsPage} />
-					<Route exact path="/explore" component={ExplorePage} />
-					<Route exact path="/press" component={PressPage} />
-					<Route exact path="/messages" component={MessagePage} />
-					<Route exact path="/contacts" component={ContactPage} />
+					<PrivateRoute exact path="/" authenticated={isAuthenticated} component={HomePage} />
+					<PrivateRoute exact path="/welcome" authenticated={isAuthenticated} component={WelcomePage} />
+					<PrivateRoute exact path="/matchs" authenticated={isAuthenticated} component={MatchsPage} />
+					<PrivateRoute exact path="/explore" authenticated={isAuthenticated} component={ExplorePage} />
+					<PrivateRoute exact path="/press" authenticated={isAuthenticated} component={PressPage} />
+					<PrivateRoute exact path="/messages" authenticated={isAuthenticated} component={MessagePage} />
+					<PrivateRoute exact path="/contacts" authenticated={isAuthenticated} component={ContactPage} />
 					{/* User profile */}
-					<Route exact path="/Profile" component={ProfilePage} />
+					<PrivateRoute exact path="/Profile" authenticated={isAuthenticated} component={ProfilePage} />
 					{/* Generic */}
-					<Route exact path="/settings" component={Settings} />
-					<Route exact path="/help" component={HelpSupport} />
+					<PrivateRoute exact path="/settings" authenticated={isAuthenticated} component={Settings} />
+					<PrivateRoute exact path="/help" authenticated={isAuthenticated} component={HelpSupport} />
 					{ /* Default */}
 					<Route component={NotFound} />
 				</Switch>
@@ -41,6 +43,17 @@ class Application extends React.Component {
 Application.propTypes = {
 	changeMode: PropTypes.func.isRequired,
 	history: PropTypes.object.isRequired,
+	isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default withSnackbar(Application);
+const reducer = 'auth';
+const mapStateToProps = state => ({
+	force: state, // force state from reducer
+	isAuthenticated: state.getIn([reducer, 'isAuthenticated']),
+});
+
+const ApplicationMapped = connect(
+	mapStateToProps,
+)(Application);
+
+export default withSnackbar(ApplicationMapped);

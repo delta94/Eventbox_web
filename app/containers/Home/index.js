@@ -14,6 +14,7 @@ import data from 'dan-api/apps/timelineData';
 import Aside from '../../components/Events/Aside';
 import {
 	fetchAction,
+	fetchUserFutureEventAction,
 	toggleLikeAction,
 	fetchCommentAction,
 	detailAction,
@@ -31,7 +32,8 @@ class Home extends PureComponent {
 
 	componentDidMount() {
 		const { fetchData } = this.props;
-		fetchData(data);
+		const currentUserId = this.props.currentUser.id;
+		fetchData(currentUserId);
 	}
 
 	render() {
@@ -96,7 +98,7 @@ class Home extends PureComponent {
 							</Paper>
 						</Grid>
 						<Grid item md={3} lg={3} sm={12} xs={12}>
-							<Aside currentUserId={1}/>
+							<Aside/>
 						</Grid>
 						<Grid item md={2} lg={2}></Grid>
 					</Grid>
@@ -120,20 +122,23 @@ Home.propTypes = {
 	closeNotif: PropTypes.func.isRequired,
 	messageNotif: PropTypes.string.isRequired,
 	search: PropTypes.func.isRequired,
+	currentUser: PropTypes.object.isRequired,
 };
 
-const reducer = 'events';
+const reducerEvent = 'events';
+const reducerAuth = 'auth';
 const mapStateToProps = state => ({
 	force: state, // force state from reducer
-	keyword: state.getIn([reducer, 'keywordValue']),
-	dataProps: state.getIn([reducer, 'dataTimeline']),
-	commentIndex: state.getIn([reducer, 'commentIndex']),
-	eventIndex: state.getIn([reducer, 'eventIndex']),
-	messageNotif: state.getIn([reducer, 'notifMsg']),
+	keyword: state.getIn([reducerEvent, 'keywordValue']),
+	dataProps: state.getIn([reducerEvent, 'dataTimeline']),
+	commentIndex: state.getIn([reducerEvent, 'commentIndex']),
+	eventIndex: state.getIn([reducerEvent, 'eventIndex']),
+	messageNotif: state.getIn([reducerEvent, 'notifMsg']),
+	currentUser: state.getIn([reducerAuth, 'user']),
 });
 
 const constDispatchToProps = dispatch => ({
-	fetchData: bindActionCreators(fetchAction, dispatch),
+	fetchData: bindActionCreators(fetchUserFutureEventAction, dispatch),
 	search: bindActionCreators(searchAction, dispatch),
 	submitComment: bindActionCreators(postCommentAction, dispatch),
 	submitLike: bindActionCreators(toggleLikeAction, dispatch),

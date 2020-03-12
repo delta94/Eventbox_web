@@ -30,6 +30,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import Fab from '@material-ui/core/Fab';
 import Add from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
+import defaultImg from '../../../public/images/events/kpi.jpg';
 import FloatingPanel from '../Panel/FloatingPanel';
 
 const ITEM_HEIGHT = 48;
@@ -178,7 +179,7 @@ class CreateEventForm extends React.Component {
 	}
 
 	render() {
-
+		console.log('file : ' + defaultImg);
 		const branch = '';
 		const {
 			classes,

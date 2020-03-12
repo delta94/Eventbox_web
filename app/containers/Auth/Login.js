@@ -23,15 +23,14 @@ import Hidden from '@material-ui/core/Hidden';
 import logo from 'dan-images/logo.svg';
 import { ContentDivider } from '../../components/Divider';
 import styles from 'dan-components/Forms/user-jss';
-import { loginService } from '../../redux/services/authService';
-import { ACCESS_TOKEN } from 'dan-api/apps/constants';
+import { connect } from 'react-redux';
+import {loginAction} from 'dan-actions/AuthActions';
+import { bindActionCreators } from 'redux';
 
 
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
 	return <NavLink to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
 });
-const loginBad = { variant: 'error', message: "Your Username or Password is incorrect. Please try again!" };
-const loginFailled = { variant: 'error', message: "Sorry! Something went wrong. Please try again!" };
 
 class Login extends React.Component {
 	state = {
@@ -70,32 +69,7 @@ class Login extends React.Component {
 			password: this.state.password.value
 		};
 
-		loginService(loginRequest)
-			.then(response => {
-				localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-				this.setState({currentUser: response})
-				this.props.onLogin(this.state.currentUser);
-			}).catch(error => {
-				if (error.status === 401) {
-					this.props.enqueueSnackbar(loginBad.message, {
-						variant: loginBad.variant,
-						preventDuplicate: true,
-						anchorOrigin: {
-							vertical: 'top',
-							horizontal: 'center',
-						},
-					});
-				} else {
-					this.props.enqueueSnackbar(error.message || loginFailled.message, {
-						variant: loginFailled.variant,
-						preventDuplicate: true,
-						anchorOrigin: {
-							vertical: 'top',
-							horizontal: 'center',
-						},
-					});
-				}
-			});
+		this.props.login(loginRequest, this.props);
 	}
 
 	render() {
@@ -217,6 +191,21 @@ class Login extends React.Component {
 
 Login.propTypes = {
 	classes: PropTypes.object.isRequired,
+	login: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(withSnackbar(Login));
+const reducer = 'auth';
+const mapStateToProps = state => ({
+	force: state,
+});
+
+const mapDispatchToProps = dispatch => ({
+	login: bindActionCreators(loginAction, dispatch),
+});
+
+const LoginMapped = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Login);
+
+export default withStyles(styles)(withSnackbar(LoginMapped));

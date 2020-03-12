@@ -16,6 +16,7 @@ import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { connect } from 'react-redux';
 import { updateUserWithPatch } from '../../redux/services/userService';
 import styles from './jss/home-jss';
 
@@ -79,7 +80,7 @@ class Welcome extends PureComponent {
 	handleUpdate = event => {
 		event.preventDefault();
 
-		//const username = this.props.location.state.currentUser.username;
+		const username = this.props.currentUser.username;
 
 		var userRequest = {
 			firstName: this.state.firstName.value,
@@ -89,12 +90,10 @@ class Welcome extends PureComponent {
 			phone: this.state.phone.value,
 			interests: this.state.interest.value,
 		}
-
+		// delete empty field to avoid rewriting them with PATCH
 		userRequest = this.deleteEmptyField(userRequest);
 
-		console.log(userRequest);
-
-		/*updateUserWithPatch(username, userRequest)
+		updateUserWithPatch(username, userRequest)
 			.then(response => {
 				this.props.enqueueSnackbar(updateOk.message, {
 					variant: updateOk.variant,
@@ -104,9 +103,8 @@ class Welcome extends PureComponent {
 						horizontal: 'center',
 					},
 				});
-				this.props.history.push({
-					pathname: '/matchs',
-				});
+				// redirect to matchs page to see matchs events
+				this.props.history.push('/matchs');
 			}).catch(error => {
 				this.props.enqueueSnackbar(error.message || updateBad.message, {
 					variant: updateBad.variant,
@@ -116,16 +114,15 @@ class Welcome extends PureComponent {
 						horizontal: 'center',
 					},
 				});
-			});*/
+			});
 	};
 
 
 	render() {
 		const title = brand.name + ' - Welcomee';
 		const description = brand.desc;
-		const { classes } = this.props;
+		const { classes, currentUser } = this.props;
 		const { firstName, lastName, ufr, sex, phone, interest } = this.state;
-
 		return (
 			<div>
 				<Helmet>
@@ -140,7 +137,7 @@ class Welcome extends PureComponent {
 					<Grid item md={2} lg={2} />
 					<Grid item md={8} lg={8}>
 						<PaperBlock
-							title="Welcome Rivel"
+							title={"Welcome " + currentUser.username}
 							icon="ios-contact" whiteBg
 							desc="Afin de bien profiter d'eventbox, veillez completer votre profile"
 						>
@@ -280,6 +277,17 @@ class Welcome extends PureComponent {
 
 Welcome.propTypes = {
 	classes: PropTypes.object.isRequired,
+	currentUser: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withSnackbar(Welcome));
+const reducer = 'auth';
+const mapStateToProps = state => ({
+	force: state, // force state from reducer
+	currentUser: state.getIn([reducer, 'user']),
+});
+
+const WelcomeMapped = connect(
+	mapStateToProps,
+)(Welcome);
+
+export default withStyles(styles)(withSnackbar(WelcomeMapped));

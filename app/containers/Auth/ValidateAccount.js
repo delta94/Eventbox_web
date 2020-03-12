@@ -13,6 +13,8 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 const styles = theme => ({
 	container: {
@@ -67,6 +69,7 @@ const styles = theme => ({
 
 class ValidateAccount extends React.Component {
 	render() {
+		console.log("validate user : " + this.props.currentUser);
 		const title = brand.name + ' - ValidateAccount';
 		const description = brand.desc;
 		const { classes } = this.props;
@@ -106,6 +109,16 @@ class ValidateAccount extends React.Component {
 
 ValidateAccount.propTypes = {
 	classes: PropTypes.object.isRequired,
+	currentUser: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ValidateAccount);
+const reducer = 'auth';
+const mapStateToProps = state => ({
+	force: state,
+	currentUser: state.getIn([reducer, 'user']),
+})
+
+const ValidateAccountMapped = connect(
+	mapStateToProps
+)(ValidateAccount);
+export default withStyles(styles)(ValidateAccountMapped);

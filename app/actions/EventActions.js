@@ -1,9 +1,24 @@
 import * as types from './actionConstants';
+import { findUserFutureEvents, findFutureEvents } from '../redux/services/eventService';
 
 export const fetchAction = items => ({
 	type: types.FETCH_TIMELINE_DATA,
 	items,
 });
+
+export const fetchEventSuccessAction = items => ({
+	type: types.FETCH_EVENT_SUCCESS,
+	items,
+});
+
+export const fetchEventErrorAction = error => ({
+	type: types.FETCH_EVENT_ERROR,
+	error,
+});
+
+export const fetchEventPendingAction = () => ({
+	type: types.FETCH_EVENT_PENDING,
+})
 
 export const postAction = (title, privacy, text, media) => ({
 	type: types.POST,
@@ -49,3 +64,16 @@ export const searchAction = keyword => ({
 	type: types.SEARCH_EVENT,
 	keyword,
 });
+
+export function fetchUserFutureEventAction(userId) {
+	return dispatch => {
+		dispatch(fetchEventPendingAction());
+
+		findFutureEvents()
+			.then(events => {
+				dispatch(fetchEventSuccessAction(events));
+			}).catch(error => {
+				dispatch(fetchEventErrorAction(error));
+			});
+	};
+}

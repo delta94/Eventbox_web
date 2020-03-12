@@ -15,6 +15,7 @@ import contact from './modules/contact';
 import chat from './modules/chat';
 import profile from './modules/profile';
 import ecommerce from './modules/ecommerce';
+import auth from './modules/auth';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -28,6 +29,7 @@ export default function createReducer(injectedReducers = {}) {
 		events,
 		contact,
 		chat,
+		auth,
 		ecommerce,
 		language: languageProviderReducer,
 		router: connectRouter(history),

@@ -3,6 +3,9 @@ import notif from 'dan-api/ui/notifMessage';
 import dummy from 'dan-api/dummy/dummyContents';
 import {
 	FETCH_TIMELINE_DATA,
+	FETCH_EVENT_SUCCESS,
+	FETCH_EVENT_ERROR,
+	FETCH_EVENT_PENDING,
 	POST,
 	TOGGLE_LIKE,
 	FETCH_COMMENT_DATA,
@@ -70,6 +73,13 @@ const initialImmutableState = fromJS(initialState);
 export default function reducer(state = initialImmutableState, action = {}) {
 	switch (action.type) {
 		case FETCH_TIMELINE_DATA:
+			return state.withMutations((mutableState) => {
+				const items = fromJS(action.items);
+				const index = state.get('dataTimeline').indexOf(action.item);
+				mutableState.set('dataTimeline', items);
+				mutableState.set('eventIndex', index);
+			});
+		case FETCH_EVENT_SUCCESS:
 			return state.withMutations((mutableState) => {
 				const items = fromJS(action.items);
 				const index = state.get('dataTimeline').indexOf(action.item);

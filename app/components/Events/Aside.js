@@ -18,9 +18,9 @@ class Aside extends React.Component {
 
 	handleSubmit = (file, title, description, location, category, startTime, endTime) => {
 
-		//const organizerId = this.props.currentUserId;
+		const organizerId = this.props.currentUser.id;
 
-		/*createEvent(file, title, description, location, category, startTime, endTime, organizerId)
+		createEvent(file, title, description, location, category, startTime, endTime, organizerId)
 			.then(response => {
 				console.log(response);
 				this.setState({
@@ -44,7 +44,7 @@ class Aside extends React.Component {
 						horizontal: 'center',
 					},
 				});
-			});*/
+			});
 	}
 
 	handleCompose = () => {
@@ -78,13 +78,16 @@ class Aside extends React.Component {
 Aside.propTypes = {
 	discard: PropTypes.func.isRequired,
 	openForm: PropTypes.bool.isRequired,
+	currentUser: PropTypes.object.isRequired,
 }
 
-const reducer = 'events';
+const reducerEvents = 'events';
+const reducerAuth = 'auth';
 const mapStateToProps = state => ({
 	force: state, // force state from reducer
-	openForm: state.getIn([reducer, 'openForm']),
-	messageNotif: state.getIn([reducer, 'notifMsg']),
+	openForm: state.getIn([reducerEvents, 'openForm']),
+	messageNotif: state.getIn([reducerEvents, 'notifMsg']),
+	currentUser: state.getIn([reducerAuth, 'user']),
 });
 
 const constDispatchToProps = dispatch => ({
