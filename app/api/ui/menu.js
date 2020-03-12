@@ -31,7 +31,13 @@ module.exports = [
     },
     {
         key: 'contact',
-        name: 'Contacts',
+        name: 'Contact',
+        icon: 'ios-people-outline',
+        link: '/contacts',
+    },
+     {
+        key: 'test',
+        name: 'Test Désiré',
         icon: 'ios-people-outline',
         link: '/contacts',
     }

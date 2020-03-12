@@ -27,6 +27,7 @@ class Application extends React.Component {
 					<PrivateRoute exact path="/press" authenticated={isAuthenticated} component={PressPage} />
 					<PrivateRoute exact path="/messages" authenticated={isAuthenticated} component={MessagePage} />
 					<PrivateRoute exact path="/contacts" authenticated={isAuthenticated} component={ContactPage} />
+					<PrivateRoute exact path="/test-desire" authenticated={isAuthenticated} component={ContactPage} />
 					{/* User profile */}
 					<PrivateRoute exact path="/Profile" authenticated={isAuthenticated} component={ProfilePage} />
 					{/* Generic */}
