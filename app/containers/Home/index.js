@@ -33,7 +33,8 @@ class Home extends PureComponent {
 	componentDidMount() {
 		const { fetchData } = this.props;
 		const currentUserId = this.props.currentUser.id;
-		fetchData(currentUserId);
+		//fetchData(currentUserId);
+		fetchData(data);
 	}
 
 	render() {
@@ -138,7 +139,8 @@ const mapStateToProps = state => ({
 });
 
 const constDispatchToProps = dispatch => ({
-	fetchData: bindActionCreators(fetchUserFutureEventAction, dispatch),
+	// fetchData: bindActionCreators(fetchUserFutureEventAction, dispatch),
+	fetchData: bindActionCreators(fetchAction, dispatch),
 	search: bindActionCreators(searchAction, dispatch),
 	submitComment: bindActionCreators(postCommentAction, dispatch),
 	submitLike: bindActionCreators(toggleLikeAction, dispatch),
